@@ -18,17 +18,31 @@ import {
   X,
 } from 'lucide-react';
 import { useAuth } from '../lib/AuthContext.jsx';
+import { formatRoleLabel } from '../lib/api.js';
 import { Badge } from '../components/ui/Display.jsx';
 import { Button } from '../components/ui/Button.jsx';
 
-export function BauhausMark({ size = 34 }) {
+export function HostelLogo({ size = 40 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 36 36" fill="none" aria-hidden="true">
-      <rect x="2" y="2" width="32" height="32" fill="#FFFDF7" stroke="#171717" strokeWidth="2.5" />
-      <circle cx="12" cy="12" r="6" fill="#E94235" stroke="#171717" strokeWidth="2" />
-      <rect x="19" y="6" width="11" height="11" fill="#2454D8" stroke="#171717" strokeWidth="2" />
-      <polygon points="6,30 18,19 30,30" fill="#F4C542" stroke="#171717" strokeWidth="2" />
-    </svg>
+    <div
+      style={{
+        width: size,
+        height: size,
+        padding: 4,
+        backgroundColor: '#FFFDF7',
+        border: '2px solid #171717',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+      }}
+    >
+      <img
+        src="/logo.png"
+        alt="Hostel Portal Logo"
+        style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+      />
+    </div>
   );
 }
 
@@ -85,7 +99,6 @@ function getNavForRole(role) {
     ];
   }
 
-  // HostelManagement
   return [
     ...common,
     { to: '/reports', label: 'Reports', icon: FileBarChart2 },
@@ -117,13 +130,13 @@ export function AppLayout() {
       >
         <div className="row-between">
           <div className="app-brand" style={{ flex: 1 }}>
-            <BauhausMark size={32} />
+            <HostelLogo size={38} />
             <div>
               <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>
-                HOSTEL SAD
+                HOSTEL PORTAL
               </div>
               <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase' }}>
-                Booking System
+                Campus Housing
               </div>
             </div>
           </div>
@@ -163,9 +176,8 @@ export function AppLayout() {
           }}
           className="stack-sm"
         >
-          <div className="row-wrap" style={{ justifyContent: 'space-between' }}>
-            <Badge status={user?.role} />
-            <span className="mono muted">#{user?.userId}</span>
+          <div className="row-between">
+            <Badge status={user?.role}>{formatRoleLabel(user?.role)}</Badge>
           </div>
           <div style={{ fontWeight: 700, fontSize: 14 }}>{user?.fullName}</div>
           {user?.assignedHostelId && (
@@ -192,13 +204,13 @@ export function AppLayout() {
               <Menu size={18} strokeWidth={2} /> Menu
             </Button>
             <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 14 }}>
-              HOSTEL BOOKING AND MANAGEMENT SYSTEM
+              HOSTEL BOOKING &amp; MANAGEMENT
             </div>
           </div>
 
           <div className="row-wrap">
             <span className="mono">{user?.username}</span>
-            <Badge status={user?.role} />
+            <Badge status={user?.role}>{formatRoleLabel(user?.role)}</Badge>
           </div>
         </header>
 

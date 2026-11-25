@@ -16,23 +16,25 @@ export function signSessionToken(user) {
   );
 }
 
-export function setAuthCookie(res, token) {
+export function setAuthCookie(res, token, req = null) {
   const env = getEnv();
+  const secure = env.cookieSecure !== null ? env.cookieSecure : Boolean(req?.secure);
   res.cookie(env.cookieName, token, {
     httpOnly: true,
     sameSite: 'lax',
-    secure: env.nodeEnv === 'production',
+    secure,
     path: '/',
     maxAge: 8 * 60 * 60 * 1000,
   });
 }
 
-export function clearAuthCookie(res) {
+export function clearAuthCookie(res, req = null) {
   const env = getEnv();
+  const secure = env.cookieSecure !== null ? env.cookieSecure : Boolean(req?.secure);
   res.clearCookie(env.cookieName, {
     httpOnly: true,
     sameSite: 'lax',
-    secure: env.nodeEnv === 'production',
+    secure,
     path: '/',
   });
 }

@@ -1,20 +1,11 @@
 import { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { ArrowRight, KeyRound, UserPlus } from 'lucide-react';
+import { KeyRound, UserPlus } from 'lucide-react';
 import { useAuth } from '../lib/AuthContext.jsx';
-import { BauhausMark } from '../layouts/AppLayout.jsx';
+import { HostelLogo } from '../layouts/AppLayout.jsx';
 import { Button } from '../components/ui/Button.jsx';
 import { Input } from '../components/ui/FormControls.jsx';
 import { Alert, Card } from '../components/ui/Display.jsx';
-
-const DEMO_ACCOUNTS = [
-  { label: 'Student (Aarav)', username: 'aarav.student', role: 'Student' },
-  { label: 'Student (Meera)', username: 'meera.student', role: 'Student' },
-  { label: 'Warden (North)', username: 'warden.north', role: 'Warden' },
-  { label: 'Administrator', username: 'admin.hostel', role: 'Administrator' },
-  { label: 'Accounts Desk', username: 'accounts.desk', role: 'AccountsPersonnel' },
-  { label: 'Hostel Management', username: 'management.exec', role: 'HostelManagement' },
-];
 
 export function LoginPage() {
   const { user, login } = useAuth();
@@ -40,110 +31,38 @@ export function LoginPage() {
     }
   };
 
-  const fillDemo = (username) => {
-    setIdentifier(username);
-    setPassword('HostelDemo#2026');
-    setError('');
-  };
-
   return (
     <div className="auth-page">
       <section className="auth-hero">
-        <div className="stack-md">
-          <div className="row-wrap">
-            <BauhausMark size={44} />
+        <div className="stack-md" style={{ maxWidth: 480, margin: '0 auto', width: '100%' }}>
+          <div className="row-wrap" style={{ gap: 16 }}>
+            <HostelLogo size={72} />
             <div>
-              <div className="mono" style={{ fontWeight: 700 }}>
-                SAD ARCHITECTURE EDITION
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 18 }}>
+                CAMPUS HOUSING
               </div>
               <div style={{ fontSize: 13 }} className="muted">
-                MERN + MongoDB Persistent Operations
+                Hostel Booking &amp; Bed Management
               </div>
             </div>
           </div>
 
-          <h1 style={{ marginTop: 12 }}>Hostel Booking &amp; Bed Allocation Ledger</h1>
-          <p style={{ maxWidth: 520, fontSize: 16 }}>
-            Unified residential accommodation workflows derived directly from the system architecture
-            diagrams: availability discovery, pending booking submission, Warden approval and atomic
-            bed allocation, check-in/out lifecycle, complaints, visitors, payments, audit logs, and
-            reports.
+          <h1 style={{ marginTop: 8 }}>Hostel Booking &amp; Allocation Portal</h1>
+          <p style={{ fontSize: 16 }}>
+            Browse available hostels and rooms, submit stay requests, manage bed allocations, and
+            coordinate campus residence services.
           </p>
-        </div>
-
-        {/* Pure geometric Bauhaus composition (no emoji, no stock images) */}
-        <div
-          aria-hidden="true"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 12,
-            maxWidth: 460,
-          }}
-        >
-          <div
-            style={{
-              height: 84,
-              backgroundColor: '#2454D8',
-              border: '2px solid #171717',
-              boxShadow: '4px 4px 0 #171717',
-              display: 'flex',
-              alignItems: 'flex-end',
-              padding: 10,
-              color: '#FFFDF7',
-              fontFamily: 'var(--font-heading)',
-              fontWeight: 700,
-              fontSize: 12,
-            }}
-          >
-            BOOKING
-          </div>
-          <div
-            style={{
-              height: 84,
-              backgroundColor: '#F4C542',
-              border: '2px solid #171717',
-              boxShadow: '4px 4px 0 #171717',
-              display: 'flex',
-              alignItems: 'flex-end',
-              padding: 10,
-              color: '#171717',
-              fontFamily: 'var(--font-heading)',
-              fontWeight: 700,
-              fontSize: 12,
-            }}
-          >
-            ALLOCATION
-          </div>
-          <div
-            style={{
-              height: 84,
-              backgroundColor: '#E94235',
-              border: '2px solid #171717',
-              boxShadow: '4px 4px 0 #171717',
-              display: 'flex',
-              alignItems: 'flex-end',
-              padding: 10,
-              color: '#171717',
-              fontFamily: 'var(--font-heading)',
-              fontWeight: 700,
-              fontSize: 12,
-            }}
-          >
-            GOVERNANCE
-          </div>
         </div>
       </section>
 
       <section className="auth-panel">
-        <div className="auth-card stack-md">
+        <div className="auth-card">
           <Card accent="blue" featured>
             <div className="stack-md" style={{ paddingTop: 6 }}>
               <div>
                 <h2>Sign In</h2>
                 <p className="muted" style={{ marginTop: 4 }}>
-                  Authenticate as Student, Warden, Administrator, Accounts Personnel, or Hostel
-                  Management.
+                  Sign in with your campus account credentials.
                 </p>
               </div>
 
@@ -155,7 +74,7 @@ export function LoginPage() {
                   label="Username or Email"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  placeholder="e.g. aarav.student"
+                  placeholder="Enter username or email"
                   autoComplete="username"
                   required
                 />
@@ -171,7 +90,7 @@ export function LoginPage() {
                 />
                 <Button type="submit" disabled={submitting}>
                   <KeyRound size={17} strokeWidth={2} />
-                  {submitting ? 'Verifying Credentials...' : 'Log In to Workspace'}
+                  {submitting ? 'Signing In...' : 'Log In'}
                 </Button>
               </form>
 
@@ -182,30 +101,6 @@ export function LoginPage() {
                 <Link to="/register" className="nb-btn nb-btn-secondary nb-btn-sm">
                   <UserPlus size={15} strokeWidth={2} /> Student Registration
                 </Link>
-              </div>
-            </div>
-          </Card>
-
-          <Card accent="yellow">
-            <div className="stack-sm" style={{ paddingTop: 6 }}>
-              <div className="row-between">
-                <h3>Local Demo Accounts</h3>
-                <span className="mono muted">Pass: HostelDemo#2026</span>
-              </div>
-              <p className="muted" style={{ fontSize: 13 }}>
-                Select a fictional local account to populate credentials for evaluation:
-              </p>
-              <div className="row-wrap">
-                {DEMO_ACCOUNTS.map((acc) => (
-                  <Button
-                    key={acc.username}
-                    variant="secondary"
-                    size="sm"
-                    onClick={() => fillDemo(acc.username)}
-                  >
-                    {acc.label} <ArrowRight size={13} strokeWidth={2} />
-                  </Button>
-                ))}
               </div>
             </div>
           </Card>
@@ -254,24 +149,28 @@ export function RegisterPage() {
   return (
     <div className="auth-page">
       <section className="auth-hero">
-        <div className="stack-md">
-          <div className="row-wrap">
-            <BauhausMark size={44} />
-            <span className="mono" style={{ fontWeight: 700 }}>
-              STUDENT ENROLMENT
-            </span>
+        <div className="stack-md" style={{ maxWidth: 480, margin: '0 auto', width: '100%' }}>
+          <div className="row-wrap" style={{ gap: 16 }}>
+            <HostelLogo size={72} />
+            <div>
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 18 }}>
+                CAMPUS HOUSING
+              </div>
+              <div style={{ fontSize: 13 }} className="muted">
+                Student Registration
+              </div>
+            </div>
           </div>
           <h1>Create Student Account</h1>
-          <p style={{ maxWidth: 480 }}>
-            Public registration provisions a Student account only. Staff accounts (Warden,
-            Administrator, Accounts Personnel, Hostel Management) are provisioned exclusively by an
-            Administrator.
+          <p style={{ fontSize: 16 }}>
+            Register your student profile to check hostel availability, submit booking requests, and
+            manage your campus stay.
           </p>
-        </div>
-        <div>
-          <Link to="/login" className="nb-btn nb-btn-secondary">
-            Back to Sign In
-          </Link>
+          <div>
+            <Link to="/login" className="nb-btn nb-btn-secondary">
+              Back to Sign In
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -307,7 +206,7 @@ export function RegisterPage() {
                   value={form.email}
                   onChange={handleChange('email')}
                   error={fieldErrors.email}
-                  placeholder="kavya@demo-hostel.edu"
+                  placeholder="student@campus.edu"
                   required
                 />
                 <Input

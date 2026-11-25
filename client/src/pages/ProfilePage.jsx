@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Save } from 'lucide-react';
-import { apiFetch } from '../lib/api.js';
+import { apiFetch, formatRoleLabel } from '../lib/api.js';
 import { useAuth } from '../lib/AuthContext.jsx';
 import { Alert, Badge, Card } from '../components/ui/Display.jsx';
 import { Button } from '../components/ui/Button.jsx';
@@ -37,7 +37,7 @@ export function ProfilePage() {
       const res = await apiFetch('/auth/profile', { method: 'PATCH', body: payload });
       setUser(res.user);
       setForm((prev) => ({ ...prev, currentPassword: '', newPassword: '' }));
-      setSuccess('Profile saved to database.');
+      setSuccess('Profile updated.');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -59,11 +59,10 @@ export function ProfilePage() {
           <Card accent="yellow">
             <div className="stack-sm" style={{ paddingTop: 6 }}>
               <div className="row-between">
-                <span className="mono muted">User #{user.userId}</span>
-                <Badge status={user.role} />
+                <span className="mono muted">{user.username}</span>
+                <Badge status={user.role}>{formatRoleLabel(user.role)}</Badge>
               </div>
               <h3>{user.fullName}</h3>
-              <div className="mono muted">{user.username}</div>
               <div className="mono" style={{ fontSize: 13 }}>
                 Code: {user.studentId || user.wardenId || user.adminId || user.employeeId || 'EXEC'}
               </div>

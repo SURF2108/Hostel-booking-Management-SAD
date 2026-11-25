@@ -65,6 +65,20 @@ export function formatDateTime(value) {
   return `${d.toISOString().slice(0, 10)} ${d.toISOString().slice(11, 16)} UTC`;
 }
 
+export function formatRoleLabel(role) {
+  if (role === 'AccountsPersonnel') return 'Accounts Personnel';
+  if (role === 'HostelManagement') return 'Hostel Management';
+  return role || '';
+}
+
+export function formatKeyLabel(key) {
+  return String(key || '')
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/Minor$/, ' (INR)')
+    .replace(/Pct$/, ' (%)')
+    .replace(/^./, (c) => c.toUpperCase());
+}
+
 export function downloadCsv(filename, rows) {
   if (!rows || rows.length === 0) return;
   const headers = Array.from(

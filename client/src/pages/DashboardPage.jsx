@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BedDouble, CalendarCheck, ClipboardList, ShieldCheck } from 'lucide-react';
-import { apiFetch, formatCurrencyINR, formatDate } from '../lib/api.js';
+import { apiFetch, formatCurrencyINR, formatDate, formatRoleLabel } from '../lib/api.js';
 import { useAuth } from '../lib/AuthContext.jsx';
 import { Badge, Card } from '../components/ui/Display.jsx';
 import { ErrorState, SkeletonGrid } from '../components/ui/DataStates.jsx';
@@ -56,12 +56,12 @@ export function DashboardPage() {
     <div className="stack-lg">
       <div className="row-between">
         <div>
-          <h1>{user.role} Workspace</h1>
+          <h1>{formatRoleLabel(user.role)} Workspace</h1>
           <p className="muted" style={{ marginTop: 4 }}>
-            Live operational overview backed by persistent MongoDB records.
+            Current overview of hostel occupancy, requests, and residence operations.
           </p>
         </div>
-        <Badge status={user.role} />
+        <Badge status={user.role}>{formatRoleLabel(user.role)}</Badge>
       </div>
 
       {user.role === 'Student' && (

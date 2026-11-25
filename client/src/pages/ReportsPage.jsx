@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Download, FileBarChart2 } from 'lucide-react';
-import { apiFetch, downloadCsv, formatDateTime } from '../lib/api.js';
+import { apiFetch, downloadCsv, formatDateTime, formatKeyLabel } from '../lib/api.js';
 import { Alert, Badge, Card } from '../components/ui/Display.jsx';
 import { Button } from '../components/ui/Button.jsx';
 import { Input, Select } from '../components/ui/FormControls.jsx';
@@ -61,7 +61,7 @@ export function ReportsPage() {
       <div>
         <h1>Generate &amp; Review Reports</h1>
         <p className="muted" style={{ marginTop: 4 }}>
-          Create persisted operational snapshots from live MongoDB records and export to CSV.
+          Create operational report snapshots and export tabular summaries to CSV.
         </p>
       </div>
 
@@ -116,7 +116,7 @@ export function ReportsPage() {
         />
       ) : (
         <div className="grid-12">
-          <div className="col-5" style={{ gridColumn: 'span 5' }}>
+          <div className="col-4">
             <Card accent="yellow">
               <div className="stack-sm" style={{ paddingTop: 6 }}>
                 <h3>Generated Snapshots</h3>
@@ -151,7 +151,7 @@ export function ReportsPage() {
             </Card>
           </div>
 
-          <div className="col-7" style={{ gridColumn: 'span 7' }}>
+          <div className="col-8">
             {selectedReport && (
               <Card accent="ink" featured>
                 <div className="stack-md" style={{ paddingTop: 6 }}>
@@ -191,7 +191,7 @@ export function ReportsPage() {
                         }}
                       >
                         <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase' }}>
-                          {k}
+                          {formatKeyLabel(k)}
                         </div>
                         <div className="mono" style={{ fontWeight: 700 }}>
                           {typeof v === 'object' ? JSON.stringify(v) : String(v)}
@@ -201,7 +201,7 @@ export function ReportsPage() {
                   </div>
 
                   {selectedReport.rows?.length ? (
-                    <Table headers={Object.keys(selectedReport.rows[0])}>
+                    <Table headers={Object.keys(selectedReport.rows[0]).map(formatKeyLabel)}>
                       {selectedReport.rows.map((row, idx) => (
                         <tr key={idx}>
                           {Object.keys(selectedReport.rows[0]).map((col) => (

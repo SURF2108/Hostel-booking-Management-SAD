@@ -235,7 +235,7 @@ async function main() {
     await page.waitForURL('**/profile');
     await page.fill('#prof-name', 'E2E Updated Student');
     await page.click('button:has-text("Save Profile")');
-    await page.waitForSelector('text=Profile saved to database.');
+    await page.waitForSelector('text=Profile updated.');
 
     await logoutViaUi();
 
@@ -243,6 +243,7 @@ async function main() {
     await loginViaUi('warden.north');
     await page.click('a:has-text("Review Bookings")');
     await page.waitForURL('**/bookings');
+    await page.waitForSelector('table');
     await assertNoEmojiOnPage(page, 'WardenBookings');
     await page.screenshot({ path: path.join(screenshotsDir, '03-warden-bookings.png'), fullPage: true });
 
@@ -325,8 +326,11 @@ async function main() {
     await assertNoEmojiOnPage(page, 'ManagementReports');
     await page.screenshot({ path: path.join(screenshotsDir, '08-management-reports.png'), fullPage: true });
 
-    // Tablet 768px check
+    // Tablet 768px check (drawer opens via Menu button, zero horizontal overflow)
     await page.setViewportSize({ width: 768, height: 1024 });
+    await page.waitForTimeout(150);
+    await page.click('button[aria-label="Open navigation menu"]');
+    await page.waitForTimeout(180);
     await page.click('a:has-text("Overview")');
     await page.waitForURL('**/dashboard');
     await page.waitForTimeout(150);

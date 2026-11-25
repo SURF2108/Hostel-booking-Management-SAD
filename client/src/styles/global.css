@@ -438,15 +438,29 @@ a {
   gap: var(--sp-4);
 }
 
+.col-12,
+.col-8,
+.col-7,
+.col-6,
+.col-5,
+.col-4,
+.col-3,
+.col-2 {
+  min-width: 0;
+}
+
 .col-12 { grid-column: span 12; }
 .col-8 { grid-column: span 8; }
+.col-7 { grid-column: span 7; }
 .col-6 { grid-column: span 6; }
+.col-5 { grid-column: span 5; }
 .col-4 { grid-column: span 4; }
 .col-3 { grid-column: span 3; }
+.col-2 { grid-column: span 2; }
 
 .stat-value {
   font-family: var(--font-heading);
-  font-size: 32px;
+  font-size: clamp(24px, 2.4vw, 32px);
   font-weight: 800;
   line-height: 1.1;
 }
@@ -475,9 +489,9 @@ a {
   flex-wrap: wrap;
 }
 
-.stack-sm { display: flex; flex-direction: column; gap: var(--sp-2); }
-.stack-md { display: flex; flex-direction: column; gap: var(--sp-4); }
-.stack-lg { display: flex; flex-direction: column; gap: var(--sp-6); }
+.stack-sm { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.stack-md { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+.stack-lg { display: flex; flex-direction: column; gap: var(--sp-6); min-width: 0; }
 
 .skeleton-box {
   height: 96px;
@@ -485,12 +499,16 @@ a {
   border: 2px solid var(--border-color);
 }
 
+@media (max-width: 1120px) {
+  .col-5, .col-7 { grid-column: span 12; }
+}
+
 @media (max-width: 1024px) {
   .grid-12 {
     grid-template-columns: repeat(6, minmax(0, 1fr));
   }
-  .col-8, .col-6 { grid-column: span 6; }
-  .col-4, .col-3 { grid-column: span 3; }
+  .col-12, .col-8, .col-7, .col-6, .col-5 { grid-column: span 6; }
+  .col-4, .col-3, .col-2 { grid-column: span 3; }
 }
 
 @media (max-width: 860px) {
@@ -505,10 +523,12 @@ a {
     width: 280px;
     z-index: 900;
     transform: translateX(-105%);
-    transition: transform 150ms ease;
+    visibility: hidden;
+    transition: transform 150ms ease, visibility 150ms ease;
   }
   .app-sidebar.open {
     transform: translateX(0);
+    visibility: visible;
   }
   .mobile-menu-btn {
     display: inline-flex;
@@ -525,7 +545,7 @@ a {
   .grid-12 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
-  .col-8, .col-6, .col-4, .col-3 {
+  .col-12, .col-8, .col-7, .col-6, .col-5, .col-4, .col-3, .col-2 {
     grid-column: span 4;
   }
 }
@@ -534,7 +554,7 @@ a {
 .auth-page {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
 .auth-hero {
@@ -543,7 +563,7 @@ a {
   padding: var(--sp-12) var(--sp-8);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   gap: var(--sp-8);
 }
 
@@ -556,7 +576,7 @@ a {
 
 .auth-card {
   width: 100%;
-  max-width: 480px;
+  max-width: 440px;
 }
 
 @media (max-width: 960px) {

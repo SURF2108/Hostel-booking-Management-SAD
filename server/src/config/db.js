@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
  * Encapsulates connection lifecycle, database handle access, and transaction capability checks.
  */
 export class MongoDBConnection {
-  constructor(connectionString = '', databaseName = 'hostel_booking') {
+  constructor(connectionString = '', databaseName = '') {
     this.connectionString = connectionString;
     this.databaseName = databaseName;
     this._supportsTransactions = false;
@@ -27,7 +27,7 @@ export class MongoDBConnection {
     }
 
     await mongoose.connect(this.connectionString, {
-      dbName: this.databaseName,
+      ...(this.databaseName ? { dbName: this.databaseName } : {}),
       serverSelectionTimeoutMS: 8000,
     });
 

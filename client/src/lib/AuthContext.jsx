@@ -9,9 +9,9 @@ export function AuthProvider({ children }) {
 
   const refreshUser = useCallback(async () => {
     try {
-      const data = await apiFetch('/auth/me');
-      setUser(data.user);
-      return data.user;
+      const data = await apiFetch('/auth/session');
+      setUser(data.authenticated ? data.user : null);
+      return data.authenticated ? data.user : null;
     } catch {
       setUser(null);
       return null;

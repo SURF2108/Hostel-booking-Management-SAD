@@ -143,7 +143,7 @@ export function PaymentsPage() {
               label="Search Reference / Notes"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="e.g. TXN-DEMO"
+              placeholder="e.g. TXN-2026-8801"
             />
           </div>
           <div style={{ minWidth: 200 }}>

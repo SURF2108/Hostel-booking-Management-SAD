@@ -29,17 +29,20 @@ export function createApp(options = {}) {
     })
   );
 
-  app.use(
+  app.use((req, res, next) =>
     cors({
       origin(origin, callback) {
         if (!origin) return callback(null, true);
-        if (env.clientOrigins.includes(origin)) return callback(null, true);
+        const hostOrigin = req.headers.host ? `${req.protocol}://${req.headers.host}` : null;
+        if (env.clientOrigins.includes(origin) || (hostOrigin && origin === hostOrigin)) {
+          return callback(null, true);
+        }
         return callback(
           forbidden(`Origin ${origin} blocked by CORS policy.`, 'CSRF_ORIGIN_DENIED')
         );
       },
       credentials: true,
-    })
+    })(req, res, next)
   );
 
   app.use(express.json({ limit: '1mb' }));

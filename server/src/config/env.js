@@ -26,10 +26,16 @@ export function getEnv() {
     nodeEnv,
     port: Number(process.env.PORT || 5000),
     mongodbUri: mongodbUri || '',
-    mongodbDbName: process.env.MONGODB_DB_NAME || 'hostel_booking',
+    mongodbDbName: process.env.MONGODB_DB_NAME || '',
     jwtSecret,
     jwtExpiresIn: process.env.JWT_EXPIRES_IN || '8h',
     cookieName: process.env.COOKIE_NAME || 'hostel_session',
+    cookieSecure:
+      process.env.COOKIE_SECURE === 'true'
+        ? true
+        : process.env.COOKIE_SECURE === 'false'
+          ? false
+          : null,
     clientOrigins: (process.env.CLIENT_ORIGIN || 'http://localhost:5173')
       .split(',')
       .map((s) => s.trim())
