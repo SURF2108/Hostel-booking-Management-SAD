@@ -1,0 +1,31 @@
+{
+  "name": "hostel-booking-management-sad",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hostel Booking and Management System (MERN implementation derived from SAD diagrams)",
+  "type": "module",
+  "engines": {
+    "node": ">=20.11.0",
+    "npm": ">=10.0.0"
+  },
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "db:start": "node scripts/local-mongo.mjs start",
+    "db:status": "node scripts/local-mongo.mjs status",
+    "db:stop": "node scripts/local-mongo.mjs stop",
+    "dev": "concurrently -k -n SERVER,CLIENT -c blue,yellow \"npm --workspace server run dev\" \"npm --workspace client run dev\"",
+    "build": "npm --workspace client run build",
+    "lint": "npm --workspace server run lint && npm --workspace client run lint",
+    "seed": "npm --workspace server run seed",
+    "start": "npm --workspace server run start",
+    "test": "npm --workspace server test",
+    "test:e2e": "node scripts/run-e2e.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "concurrently": "^9.1.2"
+  }
+}
