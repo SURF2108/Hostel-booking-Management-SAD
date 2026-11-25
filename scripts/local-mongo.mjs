@@ -76,7 +76,7 @@ function findMongodBinary() {
 }
 
 async function initReplicaSetIfNeeded() {
-  const { MongoClient } = await import('../server/node_modules/mongodb/lib/index.js');
+  const { MongoClient } = await import('mongodb');
   const client = new MongoClient(`mongodb://${HOST}:${PORT}/?directConnection=true`, {
     serverSelectionTimeoutMS: 5000,
   });
@@ -117,7 +117,8 @@ async function initReplicaSetIfNeeded() {
 
 async function start() {
   if (await isPortOpen(HOST, PORT)) {
-    console.log(`MongoDB already listening on ${HOST}:${PORT}`);
+    const rsState = await initReplicaSetIfNeeded().catch(() => 'standalone');
+    console.log(`MongoDB already listening on ${HOST}:${PORT} [${rsState}]`);
     return;
   }
 
