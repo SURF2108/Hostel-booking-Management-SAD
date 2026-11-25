@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { getEnv } from './config/env.js';
 import { dbConnection } from './config/db.js';
 import { csrfOriginCheck } from './middleware/csrf.js';
+import { forbidden } from './utils/errors.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { createAuthRouter } from './routes/authRoutes.js';
 import inventoryRoutes from './routes/inventoryRoutes.js';
@@ -33,7 +34,9 @@ export function createApp(options = {}) {
       origin(origin, callback) {
         if (!origin) return callback(null, true);
         if (env.clientOrigins.includes(origin)) return callback(null, true);
-        return callback(new Error(`Origin ${origin} blocked by CORS policy.`));
+        return callback(
+          forbidden(`Origin ${origin} blocked by CORS policy.`, 'CSRF_ORIGIN_DENIED')
+        );
       },
       credentials: true,
     })

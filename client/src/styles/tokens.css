@@ -1,0 +1,40 @@
+:root {
+  /* Color Tokens — Neo-brutalism + Bauhaus */
+  --bg-canvas: #F5F1E8;
+  --bg-surface: #FFFDF7;
+  --bg-muted: #EAE4D7;
+  --bg-grid-line: rgba(23, 23, 23, 0.06);
+
+  --ink: #171717;
+  --ink-muted: #595959;
+  --ink-inverse: #FFFDF7;
+
+  --accent-red: #E94235;
+  --accent-blue: #2454D8;
+  --accent-yellow: #F4C542;
+  --accent-success: #226344;
+
+  /* Borders & Hard Shadows */
+  --border-width: 2px;
+  --border-featured: 3px;
+  --border-color: #171717;
+  --shadow-offset: 5px 5px 0 #171717;
+  --shadow-offset-sm: 3px 3px 0 #171717;
+  --shadow-pressed: 2px 2px 0 #171717;
+  --radius: 2px;
+
+  /* Spacing Scale */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* Typography */
+  --font-heading: 'Space Grotesk', 'Avenir Next', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+}

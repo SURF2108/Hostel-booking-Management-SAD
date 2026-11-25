@@ -223,8 +223,9 @@ export class BookingService {
     return paginatedResponse(enriched, total, page, limit);
   }
 
-  async getBookingById(id, actor) {
+  async getBookingById(id, actor, session = null) {
     const booking = await Booking.findById(id)
+      .session(session)
       .populate('student', 'userId username fullName studentId email contactNumber')
       .populate('hostel', 'hostelId hostelName address hostelType')
       .populate('room', 'roomId roomNumber capacity roomStatus')
@@ -246,9 +247,10 @@ export class BookingService {
 
     const [allocation, payments] = await Promise.all([
       Allocation.findOne({ booking: booking._id })
+        .session(session)
         .populate('allocatedByWarden', 'userId username fullName wardenId')
         .lean(),
-      PaymentRecord.find({ booking: booking._id }).sort({ paymentDate: -1 }).lean(),
+      PaymentRecord.find({ booking: booking._id }).session(session).sort({ paymentDate: -1 }).lean(),
     ]);
 
     return {
@@ -266,7 +268,7 @@ export class BookingService {
       throw forbidden('Only the booking owner (Student) can cancel this booking.');
     }
 
-    return runWithBedLockAndTx(existing.bed, async ({ session }) => {
+    await runWithBedLockAndTx(existing.bed, async ({ session }) => {
       const booking = await Booking.findById(id).session(session);
       if (!booking) throw notFound('Booking not found.');
 
@@ -302,9 +304,9 @@ export class BookingService {
         actor,
         session,
       });
-
-      return this.getBookingById(booking._id, actor);
     });
+
+    return this.getBookingById(existing._id, actor);
   }
 }
 
